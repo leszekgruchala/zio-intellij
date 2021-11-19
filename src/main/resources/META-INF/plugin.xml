@@ -25,6 +25,7 @@
     <depends>com.intellij.modules.java</depends>
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
+    <depends>training</depends>
 
     <extensions defaultExtensionNs="org.intellij.scala">
         <syntheticMemberInjector implementation="zio.intellij.synthetic.macros.ModulePatternAccessible"/>
@@ -38,7 +39,17 @@
                   class="zio.intellij.testsupport.runner.TestRunnerProjectListener"/>
     </applicationListeners>
 
+    <extensions defaultExtensionNs="training">
+        <ift.learning.course language="Scala" implementationClass="zio.intellij.learn.LearnZioCourse"/>
+        <ift.language.extension language="Scala" implementationClass="zio.intellij.learn.ScalaLangSupport"/>
+    </extensions>
+
     <extensions defaultExtensionNs="com.intellij">
+        <welcomeTabFactory id="LearnZioWelcomeTab" implementation="zio.intellij.learn.LearnZioWelcomeTabFactory"
+                           order="after LearnIdeWelcomeTab"/>
+
+        <interactiveCourseFactory id="ZIOInteractiveCourse" implementation="zio.intellij.learn.course.ZIOInteractiveCourse" order="after IFTInteractiveCourse"/>
+
         <!-- simplifications -->
         <localInspection implementationClass="zio.intellij.inspections.simplifications.SimplifyUnitInspection"
                          displayName="Simplify returning Unit to .unit" groupPath="Scala,ZIO"
